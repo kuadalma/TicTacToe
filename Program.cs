@@ -3,5 +3,5 @@ Board board = new();
 while (true)
 {
     Console.WriteLine(board);
-    if (null != Console.ReadLine()) break;
+    board.SetGuess();
 }
