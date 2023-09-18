@@ -39,12 +39,11 @@ namespace TicTacToe
         }
         private bool DrawCheak()
         {
-            List<string> sign = new List<string> { "X", "O" };
             for (int i = 0; i < 3; i++)
             {
                 for (int j = 0; j < 3; j++)
                 {
-                    if (br[i, j] != sign[0] || br[i, j] != sign[1]) return false;
+                    if (br[i, j] != "X" && br[i, j] != "O") return false;
                 }
             }
             Console.WriteLine("Remis");
@@ -53,7 +52,6 @@ namespace TicTacToe
         public bool VictoryCheck()
         {
             List<string> sign = new List<string> { "X", "O" };
-            if (DrawCheak()) return true;
             for (int i = 0; i < sign.Count; i++)
             {
                 if ((br[0, 0] == sign[i] && br[1, 1] == sign[i] && br[2, 2] == sign[i]) ||
@@ -78,7 +76,13 @@ namespace TicTacToe
                     }
                 }
             }
+            if (DrawCheak()) return true;
             return false;
+        }
+
+        public string[,] GetBoard()
+        {
+            return br;
         }
         private string Draw_board()
         {
