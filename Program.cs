@@ -8,4 +8,8 @@ while (true)
     Console.Clear();
     Console.WriteLine(board);
     if (board.VictoryCheck()) break;
+    board.EnterMove(int.Parse(Console.ReadLine()), "X");
+    Console.Clear();
+    Console.WriteLine(board);
+    if (board.VictoryCheck()) break;
 }
