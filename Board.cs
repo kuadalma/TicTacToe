@@ -1,5 +1,3 @@
-﻿using System.Numerics;
-
 namespace TicTacToe
 {
     internal class Board
@@ -14,22 +12,30 @@ namespace TicTacToe
                 for (int j = 0; j < 3; j++)
                 {
                     br[i, j] = ((j + 1) + (3 * i)).ToString();
+                    //br[i, j] = " ";
                 }
             }
         }
-        public void EnterMove(int number,string znak = "O")
+        public void EnterMove(string input,string znak = "O")
         {
+            int number;
+            while (true)
+            {
+                if (int.TryParse(input, out number)) break;
+                Console.WriteLine("liczba poza zakresem :");
+                input = Console.ReadLine();
+            }
             while (true)
             {
                 if (number > 9 || number < 1)
                 {
-                    Console.WriteLine("liczba poza zakresem");
+                    Console.WriteLine("liczba poza zakresem :");
                     number = int.Parse(Console.ReadLine());
                     continue;
                 }
                 if (br[(number - 1) / 3, (number - 1) % 3] == "X" || br[(number - 1) / 3, (number - 1) % 3] == "O")
                 {
-                    Console.WriteLine("Pole jest już zajęte");
+                    Console.WriteLine("Pole jest już zajęte :");
                     number = int.Parse(Console.ReadLine());
                     continue;
                 }
