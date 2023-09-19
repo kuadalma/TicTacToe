@@ -1,38 +1,66 @@
-﻿namespace TicTacToe
+namespace TicTacToe
 {
     internal class SI
     {
         public SI() { }
-        public int FindBestMove(string[,] br)
+        public string FindBestMove(string[,] br)
         {
-            int bestMoveValue = int.MinValue;
-            int bestMovePosition = -1;
+            int depth = 5;
+            int bestScore = int.MinValue;
+            int bestMove = -1;
 
-            for (int pos = 1; pos <= 9; pos++)
+            for (int i = 1; i <= 9; i++)
             {
-                int row = (pos - 1) / 3;
-                int col = (pos - 1) % 3;
+                int row = (i - 1) / 3;
+                int col = (i - 1) % 3;
 
-                if (br[row, col] != "X" && br[row, col] != "O")
+                if (br[row, col] == "X" || br[row, col] == "O") continue;
+
+                br[row, col] = "O";
+                int score = MinValue(br, int.MinValue, int.MaxValue, depth -1);
+                br[row, col] = (i).ToString();
+
+                if (score > bestScore)
                 {
-                    br[row, col] = "O";
-                    int moveValue = MinValue(br, int.MinValue, int.MaxValue);
-                    br[row, col] = (pos).ToString();
-
-                    if (moveValue > bestMoveValue)
-                    {
-                        bestMoveValue = moveValue;
-                        bestMovePosition = pos;
-                    }
+                    bestScore = score;
+                    bestMove = i;
                 }
             }
-            return bestMovePosition;
+            return (bestMove).ToString();
         }
-        private int MaxValue(string[,] br, int alpha, int beta)
+        //private int Minimax(string[,] br, string who)
+        //{
+        //    int score = Evaluate(br, who);
+        //    if (score != 0)
+        //    {
+        //        return score;
+        //    }
+
+        //    int bestScore = who == "O" ? int.MinValue : int.MaxValue;
+
+        //    int CalcBest(int x, int y) => (who == "O" ? x > y : y > x) ? x : y;
+
+        //    for (int i = 0; i < 3; i++)
+        //    {
+        //        for (int j = 0; j < 3; j++)
+        //        {
+        //            if (br[i, j] != "X" && br[i, j] != "O")
+        //            {
+        //                br[i, j] = who;
+        //                int currentScore = Minimax(br, who == "O" ? "X" : "O");
+        //                br[i, j] = (i * 3 + j + 1).ToString();
+
+        //                bestScore = CalcBest(bestScore, currentScore);
+        //            }
+        //        }
+        //    }
+        //    return bestScore;
+        //}
+        private int MaxValue(string[,] br, int alpha, int beta, int depth)
         {
             int result = Evaluate(br);
 
-            if (result != 0)
+            if (result != 0 || depth == 0)
                 return result;
 
             for (int i = 0; i < 3; i++)
@@ -42,7 +70,7 @@
                     if (br[i, j] != "X" && br[i, j] != "O")
                     {
                         br[i, j] = "O";
-                        alpha = Math.Max(alpha, MinValue(br, alpha, beta));
+                        alpha = Math.Max(alpha, MinValue(br, alpha, beta, depth - 1));
                         br[i, j] = (i * 3 + j + 1).ToString();
                         if (alpha >= beta)
                             return beta;
@@ -51,10 +79,10 @@
             }
             return alpha;
         }
-        private int MinValue(string[,] br, int alpha, int beta)
+        private int MinValue(string[,] br, int alpha, int beta, int depth)
         {
             int result = Evaluate(br);
-            if (result != 0)
+            if (result != 0 || depth == 0)
                 return result;
             for (int i = 0; i < 3; i++)
             {
@@ -63,7 +91,7 @@
                     if (br[i, j] != "X" && br[i, j] != "O")
                     {
                         br[i, j] = "X";
-                        beta = Math.Min(beta, MaxValue(br, alpha, beta));
+                        beta = Math.Min(beta, MaxValue(br, alpha, beta, depth - 1));
                         br[i, j] = (i * 3 + j + 1).ToString();
                         if (alpha >= beta)
                             return alpha;
@@ -72,6 +100,7 @@
             }
             return beta;
         }
+
         private int Evaluate(string[,] br)
         {
             for (int i = 0; i < 3; i++)
