@@ -8,10 +8,7 @@ while (true)
     board = new();
     //board.EnterMove("5", "O");
     Console.WriteLine(board);
-<<<<<<< HEAD
-    board.SetGuess();
-}
-=======
+
     while (true)
     {
         board.EnterMove(SI.FindBestMove(board.GetBoard()));
@@ -25,4 +22,3 @@ while (true)
     }
     Console.ReadLine();
 }
->>>>>>> dev
